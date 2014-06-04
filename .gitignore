@@ -1,0 +1,19 @@
+# Delphi compiler-generated binaries (safe to delete)
+*.exe
+*.dll
+*.bpl
+*.bpi
+*.dcp
+*.drc
+*.map
+*.dcu
+
+# Delphi local files (user-specific info)
+*.local
+*.identcache
+*.projdata
+*.dsk
+
+# Delphi history and backups
+__history/
+*.~*
