@@ -17,3 +17,6 @@
 # Delphi history and backups
 __history/
 *.~*
+
+_dcu/
+bin/
