@@ -43,7 +43,7 @@ begin
        ShowMessage('Требуется выбрать пользователя!');
        exit;
      end;
-     s := klsMD5(edPwd.Text + 'Шифрование данных средствами Delphi');
+     s := klsMD5(edPwd.Text);
      t := FDatabase.QueryValueInt('select ID from DF$USERS where PWD=:PWD', [s]);
      if (t <> FDatabase.Users.User(cmbName.ItemIndex).ID) then
      begin
@@ -71,6 +71,7 @@ begin
        if Result then
         UserID := FDatabase.Users.User(cmbName.ItemIndex).ID;
      finally
+       FDatabase := nil;
        Free;
      end;
 end;

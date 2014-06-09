@@ -5,8 +5,9 @@ interface
 implementation
 
 uses
-  IDatabase, Spring.Container, System.Generics.Collections, System.SysUtils,
-  klsConsts, Spring.Services, Vcl.Dialogs;
+  IDatabase, Spring.Container, System.SysUtils,
+  klsConsts, Spring.Services, Vcl.Dialogs, Spring.Collections,
+  Spring.Collections.Lists;
 
 type
   TdfUser = class (TInterfacedObject, IdfUser)
@@ -84,7 +85,7 @@ end;
 constructor TdfUserList.Create;
 begin
      FDatabase := nil;
-     FList := TObjectList<TdfUser>.Create(true);
+     FList := TObjectList<TdfUser>.Create(false);
      FActiveUserID := iUndefinedActiveUser;
 end;
 
@@ -92,6 +93,7 @@ destructor TdfUserList.Destroy;
 begin
      ShowMessage('TdfUserList.Destroy');
      FreeAndNil(FList);
+     FDatabase := nil;
      inherited;
 end;
 
@@ -113,7 +115,7 @@ begin
          u := ServiceLocator.GetService<IdfUser>('UserDefault') as TdfUser;
          u.LoadFromCursor(c);
          FList.Add(u);
-         u._AddRef;
+//         u._AddRef;
          c.Next;
        end;
      finally

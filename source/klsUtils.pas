@@ -9,29 +9,36 @@ function klsMD5(const S: string): string;
 implementation
 
 uses
-  Spring.Cryptography;
+  Spring.Cryptography, System.SysUtils;
 
 const
-  MySecretKey = 19750911;
+  MySecretKey = '0123456789abcdef';
+  MySecretIV = '1234567890abcdef';
 
 function klsEncrypt(const S: string): string;
 var des: IDES;
-    key: TBuffer;
+    inBuf: TBuffer;
 begin
-     key.Create(MySecretKey);
+     inBuf := TBuffer.Create(S);
      des := CreateDES;
-     des.Key := key;
-     Result := des.Encrypt(S).ToString;
+     des.CipherMode := TCipherMode.ECB;
+     des.PaddingMode := TPaddingMode.PKCS7;
+     des.Key := TBuffer.FromHexString(MySecretKey);
+     des.IV := TBuffer.FromHexString(MySecretIV);
+     Result := des.Encrypt(inBuf).ToString;
 end;
 
 function klsDecrypt(const S: string): string;
 var des: IDES;
-    key: TBuffer;
+    inBuf: TBuffer;
 begin
-     key.Create(MySecretKey);
+     inBuf := TBuffer.FromHexString(S);
      des := CreateDES;
-     des.Key := key;
-     Result := des.Decrypt(S).ToString;
+     des.CipherMode := TCipherMode.ECB;
+     des.PaddingMode := TPaddingMode.PKCS7;
+     des.Key := TBuffer.FromHexString(MySecretKey);
+     des.IV := TBuffer.FromHexString(MySecretIV);
+     Result := WideStringOf(des.Decrypt(inBuf).ToBytes);
 end;
 
 function klsMD5(const S: string): string;

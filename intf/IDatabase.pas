@@ -19,6 +19,8 @@ type
     function GetName: string;
     procedure SetName(const AValue: string);
     function GetDBInfo: TStrings;
+    function GetCurrentUser: IdfUser;
+    procedure SetCurrentUser(AValue: IdfUser);
   // public
     function EditProp: Boolean;
     function Connected: Boolean;
@@ -34,6 +36,7 @@ type
   // public
     property Name: string read GetName write SetName;
     property DBInfo: TStrings read GetDBInfo;
+    property CurrentUser: IdfUser read GetCurrentUser write SetCurrentUser;
   end;
 
   IdfUser = interface

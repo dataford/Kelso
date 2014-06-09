@@ -63,6 +63,7 @@ end;
 
 destructor TdfFirebird.Destroy;
 begin
+     ShowMessage('TdfFirebird.Destroy');
      FDatabase.Free;
      inherited;
 end;
@@ -141,6 +142,7 @@ end;
 destructor TdfFirebirdCursor.Destroy;
 begin
      FQuery.Free;
+     FDatabase := nil;
      inherited;
 end;
 

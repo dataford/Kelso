@@ -63,6 +63,7 @@ begin
        if FDBSystem.Users.LoadFromDatabase and TfmDFLogin.Execute(FDBSystem, uid) then
        begin
          FDBSystem.Users.SetActiveUser(uid);
+         FDBSystem.CurrentUser := FDBSystem.Users.User(uid);
        end;
      end;
      UpdateStatusBar;

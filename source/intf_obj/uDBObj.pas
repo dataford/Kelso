@@ -10,9 +10,12 @@ type
   private
     FDBInfo: TStrings;
     FUserList: IdfUserList;
+    FCurrentUser: IdfUser;
     function GetName: string;
     procedure SetName(const AValue: string);
     function GetDBInfo: TStrings;
+    function GetCurrentUser: IdfUser;
+    procedure SetCurrentUser(AValue: IdfUser);
   protected
   public
     constructor Create; virtual;
@@ -31,6 +34,7 @@ type
   public
     property Name: string read GetName write SetName;
     property DBInfo: TStrings read GetDBInfo;
+    property CurrentUser: IdfUser read GetCurrentUser write SetCurrentUser;
   end;
 
 implementation
@@ -45,6 +49,12 @@ begin
      FDBInfo := TStringList.Create;
      FUserList := ServiceLocator.GetService<IdfUserList>('UserListDefault');
      FUserList.Database := Self;
+     FCurrentUser := nil;
+end;
+
+function TdfDatabase.GetCurrentUser: IdfUser;
+begin
+     Result := FCurrentUser;
 end;
 
 function TdfDatabase.GetDBInfo: TStrings;
@@ -104,12 +114,18 @@ begin
      ShowMessage('TdfDatabase.Destroy');
      FDBInfo.Free;
      FUserList := nil;
+     FCurrentUser := nil;
      inherited;
 end;
 
 procedure TdfDatabase.Disconnect;
 begin
      Users.SetActiveUser(iUndefinedActiveUser);
+end;
+
+procedure TdfDatabase.SetCurrentUser(AValue: IdfUser);
+begin
+     FCurrentUser := AValue;
 end;
 
 procedure TdfDatabase.SetName(const AValue: string);
